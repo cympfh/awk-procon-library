@@ -1,0 +1,14 @@
+#!/bin/bash
+
+APL_ROOT=$(dirname $0)/../
+
+list() {
+    for f in $(ls -1 $APL_ROOT/src); do
+        printf "%s\t%s\n" "$f" "$(head -1 $APL_ROOT/src/$f)"
+    done
+}
+
+F="$( list | peco | awk '$0=$1' )"
+if [ ! -z "$F" ]; then
+    cat $APL_ROOT/src/$F | awk c++
+fi
