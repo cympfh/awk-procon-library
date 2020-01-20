@@ -1,6 +1,6 @@
 # Quick sort O(n log n)
-function sort(xs) {
-    sort_sub(xs, 1, length(xs))
+function sort(xs, n) {
+    sort_sub(xs, 1, n)
 }
 function sort_sub(xs, left, right, _, pivot, i, j, t) {
     if (left >= right) return;
@@ -20,5 +20,4 @@ function sort_sub(xs, left, right, _, pivot, i, j, t) {
     t=xs[i-1]; xs[i-1]=xs[left]; xs[left]=t;
     sort_sub(xs, left, i-2);
     sort_sub(xs, i, right);
-
 }
