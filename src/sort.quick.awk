@@ -1,33 +1,38 @@
-# Quick sort O(n log n)
+# Quick Sort (in-place version)
 function sort(xs, n) {
     sort_sub(xs, 1, n);
 }
-function sort_sub(xs, left, right, _, pivot, i, n_lt, n_eq, n_gt, lt, gt) {
+function swap(xs, i, j) {
+    if (i == j) return;
+    t = xs[i]; xs[i] = xs[j]; xs[j] = t;
+}
+function sort_sub(xs, left, right, _, i, pivot, lt_left, lt_right, eq_left, eq_right, gt_left, gt_right) {
     if (left >= right) return;
-    pivot = xs[left];
-    n_lt = 0;
-    n_eq = 0;
-    n_gt = 0;
+    pivot = xs[right];
+    lt_left = left
+    lt_right = left - 1
+    eq_left = left
+    eq_right = left - 1
+    gt_left = left
+    gt_right = left - 1
     for (i = left; i <= right; ++i) {
         if (xs[i] < pivot) {
-            n_lt++;
-            lt[n_lt] = xs[i];
+            if (eq_left < gt_left) swap(xs, eq_left, i);
+            swap(xs, gt_left, i);
+            lt_right++;
+            eq_left++;
+            eq_right++;
+            gt_left++;
+            gt_right++;
         } else if (xs[i] == pivot) {
-            n_eq++;
+            swap(xs, gt_left, i);
+            eq_right++;
+            gt_left++;
+            gt_right++;
         } else {
-            n_gt++;
-            gt[n_gt] = xs[i];
+            gt_right++;
         }
     }
-    for (i = 1; i <= n_lt; ++i) {
-        xs[left + i - 1] = lt[i];
-    }
-    for (i = 1; i <= n_eq; ++i) {
-        xs[left + n_lt + i - 1] = pivot;
-    }
-    for (i = 1; i <= n_gt; ++i) {
-        xs[left + n_lt + n_eq + i - 1] = gt[i];
-    }
-    sort_sub(xs, left, left + n_lt - 1);
-    sort_sub(xs, right - n_gt + 1, right);
+    sort_sub(xs, lt_left, lt_right);
+    sort_sub(xs, gt_left, gt_right);
 }
