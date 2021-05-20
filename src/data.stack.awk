@@ -22,3 +22,6 @@ function stack_display(stack, _, line, i) {
     }
     print "[" line "]"
 }
+function stack_length(stack) {
+    return stack[0]
+}
